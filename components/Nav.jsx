@@ -59,7 +59,7 @@ const Nav = () => {
                   type="button"
                   key={provider.name}
                   onClick={() => signIn(provider.id)}
-                  className="black-btn"
+                  className="black_btn"
                 >
                   Sign In
                 </button>
@@ -67,7 +67,7 @@ const Nav = () => {
           </>
         )}
       </div>
-      {/*Mobile Navigation */}
+
       <div className="sm:hidden flex relative">
         {isUserLoggedIn ? (
           <div className="flex">
@@ -77,8 +77,40 @@ const Nav = () => {
               height={37}
               className="rounded-full"
               alt="profile"
-              onClick={() => {}}
+              /*we want to set ToddleDropdown to oppposite of its curretn value. 
+              It is not a good idea to change the state using previous version of that 
+              same state as it will lead to unexpected behaviour. It is better to add a 
+              callback function within that state to include previous value to update it to the now prev value  */
+              onClick={() => setToogleDropdown((prev) => !prev)}
             />
+            {toogleDropdown && (
+              <div className="dropdown">
+                <Link
+                  href="/profile"
+                  className="dropdown_link"
+                  onClick={() => setToogleDropdown(false)}
+                >
+                  My Profile
+                </Link>
+                <Link
+                  href="/create-prompt"
+                  className="dropdown_link"
+                  onClick={() => setToogleDropdown(false)}
+                >
+                  Create Prompt
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setToogleDropdown(false);
+                    signOut();
+                  }}
+                  className="mt-5 w-full black_btn"
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <>
