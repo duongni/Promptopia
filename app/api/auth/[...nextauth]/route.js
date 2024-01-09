@@ -23,7 +23,7 @@ const handler = NextAuth({
 
       return session;
     },
-    async singIn({ profile }) {
+    async signIn({ profile }) {
       try {
         //every Next.JS route is serverless route,
         //which mean it is Lambda function,
