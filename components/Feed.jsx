@@ -3,12 +3,50 @@
 import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
 
-const Feed = () => {
+const PromptCardList = ({ data, handleTagClick }) => {
   return (
-    <session>
+    <div className="mt-16 prompt_layout">
+      {data.map((post) => (
+        <PromptCard
+          key={post._id}
+          post={post}
+          handleTagClick={handleTagClick}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Feed = () => {
+  const [searchText, setSearchText] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  const handleSearchChange = (e) => {};
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const response = await fetch("/api/prompt");
+      const data = await response.json();
+
+      setPosts(data);
+    };
+    fetchPost();
+  }, []);
+
+  return (
+    <session className="feed">
       <form className="relative w-full flex-center">
-        <input></input>
+        <input
+          type="text"
+          placeholder="Search for a tag or a username"
+          value={searchText}
+          onChange={handleSearchChange}
+          required
+          className="search_input peer"
+        ></input>
       </form>
+
+      <PromptCardList data={posts} handleTagClick={() => {}} />
     </session>
   );
 };
