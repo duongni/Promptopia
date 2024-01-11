@@ -25,6 +25,7 @@ const handler = NextAuth({
     },
     async signIn({ profile }) {
       try {
+        console.log("Profile Picture URL:", profile.picture);
         //every Next.JS route is serverless route,
         //which mean it is Lambda function,
         //which mean it only open up when it get called.
@@ -39,9 +40,11 @@ const handler = NextAuth({
         if (!userExists) {
           await User.create({
             email: profile.email,
-            username: profile.name.replace(" ", "").toLowerCase(),
             image: profile.picture,
-          });
+            username: profile.name.replace(" ", "").toLowerCase(),
+          })
+            .then((user) => console.log("User created:", user))
+            .catch((error) => console.error("Error creating user:", error));
         }
         //if sign in
 
